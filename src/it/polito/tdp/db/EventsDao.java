@@ -18,6 +18,17 @@ import it.polito.tdp.model.Event;
 
 public class EventsDao {
 	
+	// TUTTI GLI EVENTI ADIACENTI, per qualsiasi campo, DATO L'ANNO
+	// TROPPO LENTO IL DB
+//	public List<Adiacenza> listAllAdaicenzaByYear(Year anno){
+//	
+//	}
+	
+	// TUTTI I DISTRETTI ADIACENTI, DB VELOCE IN QUANT SOLO 7 DISRTETTI
+	
+	
+	
+	// TUTTI GLI EVENTI DATO L'ANNO
 	public List<Event> listAllEventsByYear(Year anno){
 		String sql = "SELECT * FROM events WHERE YEAR(reported_date) =? " ;
 		try {
@@ -63,6 +74,8 @@ public class EventsDao {
 		}
 	}
 	
+	
+	// TUTTI GLI EVENTI DATO ANNO, MESE, GIORNO
 	public List<Event> listAllEventsByDate(Year anno, Integer mese, Integer giorno){
 		String sql = "SELECT * FROM events WHERE YEAR(reported_date) =? "
 					+"AND Month(reported_date) = ? AND Day(reported_date) =? ";
@@ -111,6 +124,7 @@ public class EventsDao {
 		}
 	}
 	
+	// TUTTI GLI ANNI
 	public List<Year> listAnni(){
 		String sql = "SELECT DISTINCT year(reported_date) AS anno " + 
 				"FROM EVENTS " ;

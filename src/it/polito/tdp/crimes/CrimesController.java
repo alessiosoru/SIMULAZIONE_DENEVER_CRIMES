@@ -63,7 +63,8 @@ public class CrimesController {
     		return;
     	}
     	model.creaGrafo(anno);
-    	this.txtResult.appendText("Grafo creato!\n");
+    	this.txtResult.appendText("GRAFO CREATO !! \nVERTICI "+model.getNumVertici()+
+				"\nARCHI "+model.getNumArchi()+"\n");
     	this.txtResult.appendText("*** LISTE DISTRETTI VICNI PER DISTANZA ***\n");
     	for(Integer d: model.getDistretti()) {
     		List<DistrettoVicino> adiacenti = model.getVicini(d);
