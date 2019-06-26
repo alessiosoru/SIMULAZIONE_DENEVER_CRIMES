@@ -1,5 +1,18 @@
 QUERY
 
+prende quartieri date certe specifiche, circa diecie secondi
+SELECT e1.neighborhood_id, e2.neighborhood_id
+FROM events e1, events e2
+where YEAR(e1.reported_date)=YEAR(e2.reported_date) 
+	and YEAR(e1.reported_date)= 2015
+	AND e1.offense_type_id ='traffic-accident'
+	AND e2.offense_type_id = 'traffic-accident'
+	AND e1.district_id = 1
+	AND e2.district_id = 2	
+	AND e1.neighborhood_id<e2.neighborhood_id
+	
+prendere gli incident_id impiega troppo, molti minuti
+
 VERIFICA CONNESSIONE TRA DUE EVENTI (CI METTE 12 SECONDI, LENTO MA NON TROPPO)
 select count(*) as cnt
 FROM events e1, events e2
@@ -10,3 +23,5 @@ where YEAR(e1.reported_date)=YEAR(e2.reported_date)
 	AND e1.district_id = 1
 	AND e2.district_id = 2	
 	AND e2.reported_date>e1.reported_date
+	
+	
