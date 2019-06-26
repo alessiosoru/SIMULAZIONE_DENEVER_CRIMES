@@ -22,6 +22,8 @@ import it.polito.tdp.db.EventsDao;
 
 public class Model {
 	
+	// 1. BASE
+	
 //	private static final LengthUnit KILOMETER = null;
 	private Graph<Integer, DefaultWeightedEdge> grafo;
 	private List<Integer> distretti;
@@ -46,6 +48,10 @@ public class Model {
 //		this.distrettiIdMap = new HashMap<Integer, District>();
 		
 	}
+	
+	// 1A. GRAFO CREATO CON ADIACENZA
+	
+	// 1B. GRAFO CREATO CON MODO1
 	
 	public void creaGrafo(Year anno) {
 		
@@ -159,5 +165,11 @@ public class Model {
 		sim.init(N, anno, mese, giorno, grafo);
 		return sim.run();
 	}
+	
+	// 2. VISITA
+	
+	// 3. CAMMINO MINIMO
+	
+	// 4.RICORSIONE
 	
 }
