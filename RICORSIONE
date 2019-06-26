@@ -1,6 +1,4 @@
-
-	
-	// RICORSIONE
+// RICORSIONE
 	/*
 	 * RICORSIONE FORMULA 1
 	 * 
@@ -16,6 +14,32 @@
 	 * Calcolo il tasso di sconfitta come peso archi entranti per ogni pilota
 	 * 
 	 */
+	 
+	 	
+// PER LA RICORSIONE
+	
+	// 1. struttura dati finale
+	private List<String> ottima; // è una lista di stati(String) in cui
+	// c'è lo stato di partenza e un insieme di altri stati (non ripetuti)
+	
+	// 2. struttura dati parziale
+	// una lista definita nel metodo ricorsivo
+	
+	// 3. condizione di terminazione
+	// dopo un determinato nodo non ci sono più successori che non ho considerato
+	
+	// 4. generare una nuova soluzione a partire da una soluzione parziale
+	// dato l'ultimo nodo inserito in parziale, considero tutti i successori
+	// di quel nodo che non ho ancora considerato
+	
+	// 5. filtro
+	// alla fine ritornerò una sola soluzione --> quella per cui la size() è massima
+	
+	// 6. livello di ricorsione
+	// lunghezza del percorso parziale
+	
+	// 7. caso iniziale
+	// parziale contiene il mio stato di partenza
 
 //	public Map<Integer, Driver> getDreamTeam(Integer k){
 //		

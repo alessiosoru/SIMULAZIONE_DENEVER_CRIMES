@@ -1,0 +1,55 @@
+CREAZIONE GRAFI
+
+/ Crea l'oggetto grafo
+		this.grafo = new SimpleDirectedWeightedGraph(DefaultWeightedEdge.class);
+		
+		// Aggiungi i vertici
+		MetroDAO dao = new MetroDAO();
+		this.fermate = dao.getAllFermate();
+		Graphs.addAllVertices(this.grafo, this.fermate);
+		
+		// Crea idMap
+		this.fermateIdMap = new HashMap<>();
+		for(Fermata f : fermate) {
+			fermateIdMap.put(f.getIdFermata(), f);
+		}
+		
+//		// Aggiungi gli archi (opzione 1)
+//		// lenta, chiede il numero di archi al DB
+//		for(Fermata partenza : this.grafo.vertexSet()) {
+//			for( Fermata arrivo : this.grafo.vertexSet()) {
+//				if(dao.esisteConnessione(partenza, arrivo))
+//					this.grafo.addEdge(partenza, arrivo);
+//			}
+//		}
+		
+		// Aggiungi gli archi (opzione 2)
+		// chiedendo al DB, con lo stesso costo del precedente posso
+		// per ogni fermata di partenza mi fornisce la lista delle stazioni di arrivo
+		// Faccio un livello di iterazione in meno in java, mi restituisce l'insieme di archi
+		// uscenti dallo stesso nodo di partenza e li aggiungo un colpo solo
+		for(Fermata partenza: this.grafo.vertexSet()) {
+			List<Fermata> arrivi = dao.stazioneArrivo(partenza, fermateIdMap);
+			for(Fermata arrivo : arrivi) {
+				this.grafo.addEdge(partenza, arrivo);
+			}
+		}
+		
+		// Aggiungi gli archi (opzione 3)
+		// in questo caso ho già gli archi da una query senza alcun tipo di join
+		// perchè ho già entrambi i dati nella tabella connessione, mi da tutto
+		
+		// Aggiungi i pesi agli archi
+		List<ConnessioneVelocita> archiPesati = dao.getConnessioneVelocita();
+		for(ConnessioneVelocita cp : archiPesati) {
+			Fermata partenza = fermateIdMap.get(cp.getStazP());
+			Fermata arrivo = fermateIdMap.get(cp.getStazA());
+			double distanza = LatLngTool.distance(partenza.getCoords(),  arrivo.getCoords(),LengthUnit.KILOMETER);
+			double peso = distanza/cp.getVelocita() * 3600; // tempo in secondi
+			
+			grafo.setEdgeWeight(partenza, arrivo, peso);
+			
+			// oppure facevo tutto in una volta l'operazine seguente, senza dover
+			// aggiungere prima gli archi e poi i pesi
+//			Graphs.addEdgeWithVertices(grafo, partenza, arrivo, peso);
+		}
