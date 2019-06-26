@@ -1,7 +1,7 @@
 QUERY
 
-prende quartieri date certe specifiche, circa diecie secondi
-SELECT e1.neighborhood_id, e2.neighborhood_id
+prende quartieri date certe specifiche, circa 8 secondi
+SELECT distinct e1.neighborhood_id, e2.neighborhood_id
 FROM events e1, events e2
 where YEAR(e1.reported_date)=YEAR(e2.reported_date) 
 	and YEAR(e1.reported_date)= 2015
