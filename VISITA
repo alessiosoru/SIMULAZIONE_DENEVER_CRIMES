@@ -1,0 +1,218 @@
+VISITA
+
+
+// VEDI VERSIONE JGRAPHT
+	/*
+	 * VERSIONE LIBRERIA JGRAPHT
+	 */
+	private List<Country> displayAllNeighboursJGraphT(Country selectedCountry) {
+
+		List<Country> visited = new LinkedList<Country>();
+
+		// Versione 1 : utilizzo un BreadthFirstIterator
+//		GraphIterator<Country, DefaultEdge> bfv = new BreadthFirstIterator<Country, DefaultEdge>(graph,
+//				selectedCountry);
+//		while (bfv.hasNext()) {
+//			visited.add(bfv.next());
+//		}
+
+		// Versione 2 : utilizzo un DepthFirstIterator
+		GraphIterator<Country, DefaultEdge> dfv = new DepthFirstIterator<Country, DefaultEdge>(graph, selectedCountry);
+		while (dfv.hasNext()) {
+			visited.add(dfv.next());
+		}
+
+		return visited;
+	}
+
+
+
+public List<Country> getReachableCountries(Country selectedCountry) {
+
+		if (!graph.vertexSet().contains(selectedCountry)) {
+			throw new RuntimeException("Selected Country not in graph");
+		}
+
+		List<Country> reachableCountries = this.displayAllNeighboursIterative(selectedCountry);
+		
+		
+		System.out.println("Reachable countries: " + reachableCountries.size());
+		reachableCountries = this.displayAllNeighboursJGraphT(selectedCountry);
+		System.out.println("Reachable countries: " + reachableCountries.size());
+		reachableCountries = this.displayAllNeighboursRecursive(selectedCountry);
+		System.out.println("Reachable countries: " + reachableCountries.size());
+
+		return reachableCountries;
+	}
+
+	/*
+	 * VERSIONE ITERATIVA
+	 */
+	private List<Country> displayAllNeighboursIterative(Country selectedCountry) {
+	
+	
+				// in visita, la chiave è il figlio, l'elemento è il padre
+				// esploro il grafo aggiungendo le istanze di padri e figli, dato che il grafo
+				// non è orinetato, verifico quale risulta il padre e quale il figlio dell'arco
+				// tra quello che ho salvato come sorgente e destinazione dell'evento
+				// la prima istanza che ho salvato in precedenza ha il figlio che è la sorgente primaria
+				// da cui faccio partire l'attraversamento, ma non ha ancora il padre
+				// quindi nel primo salvataggio istanzierò un nuovo componente con chiave (figlio)
+				// come il target dell'arco del grafo che ha la sorgente primaria come origini
+				// e come padre la sorgente primaria e il processo andrà così via avanti
+
+		// Creo due liste: quella dei noti visitati ..
+		List<Country> visited = new LinkedList<Country>();
+
+		// .. e quella dei nodi da visitare
+		List<Country> toBeVisited = new LinkedList<Country>();
+
+		// Aggiungo alla lista dei vertici visitati il nodo di partenza.
+		visited.add(selectedCountry);
+
+		// Aggiungo ai vertici da visitare tutti i vertici collegati a quello inserito
+		toBeVisited.addAll(Graphs.neighborListOf(graph, selectedCountry));
+
+		while (!toBeVisited.isEmpty()) {
+
+			// Rimuovi il vertice in testa alla coda
+			Country temp = toBeVisited.remove(0);
+
+			// Aggiungi il nodo alla lista di quelli visitati
+			visited.add(temp);
+
+			// Ottieni tutti i vicini di un nodo
+			List<Country> listaDeiVicini = Graphs.neighborListOf(graph, temp);
+
+			// Rimuovi da questa lista tutti quelli che hai già visitato..
+			listaDeiVicini.removeAll(visited);
+
+			// .. e quelli che sai già che devi visitare.
+			listaDeiVicini.removeAll(toBeVisited);
+
+			// Aggiungi i rimanenenti alla coda di quelli che devi visitare.
+			toBeVisited.addAll(listaDeiVicini);
+		}
+
+		// Ritorna la lista di tutti i nodi raggiungibili
+		return visited;
+	}
+
+	/*
+	 * VERSIONE LIBRERIA JGRAPHT
+	 */
+	private List<Country> displayAllNeighboursJGraphT(Country selectedCountry) {
+
+		List<Country> visited = new LinkedList<Country>();
+
+		// Versione 1 : utilizzo un BreadthFirstIterator
+//		GraphIterator<Country, DefaultEdge> bfv = new BreadthFirstIterator<Country, DefaultEdge>(graph,
+//				selectedCountry);
+//		while (bfv.hasNext()) {
+//			visited.add(bfv.next());
+//		}
+
+		// Versione 2 : utilizzo un DepthFirstIterator
+		GraphIterator<Country, DefaultEdge> dfv = new DepthFirstIterator<Country, DefaultEdge>(graph, selectedCountry);
+		while (dfv.hasNext()) {
+			visited.add(dfv.next());
+		}
+
+		return visited;
+	}
+
+	/*
+	 * VERSIONE RICORSIVA
+	 */
+	private List<Country> displayAllNeighboursRecursive(Country selectedCountry) {
+
+		List<Country> visited = new LinkedList<Country>();
+		recursiveVisit(selectedCountry, visited);
+		return visited;
+	}
+
+	private void recursiveVisit(Country n, List<Country> visited) {
+		// Do always
+		visited.add(n);
+
+		// cycle
+		for (Country c : Graphs.neighborListOf(graph, n)) {	
+			// filter
+			if (!visited.contains(c))
+				recursiveVisit(c, visited);
+				// DO NOT REMOVE!! (no backtrack)
+		}
+	}
+
+}
+
+
+	public List<Country> trovaStatiRaggiungibili(Country sourceCountry){
+		
+		// versione con BreadthFirstIterator
+		List<Country> statiRaggiungibili = new ArrayList<Country>();
+		GraphIterator<Country, DefaultEdge> it = new BreadthFirstIterator(this.grafo);
+		visita.put(sourceCountry, null);
+		
+		it.addTraversalListener(new TraversalListener<Country, DefaultEdge>() {
+
+			@Override
+			public void connectedComponentFinished(ConnectedComponentTraversalEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void connectedComponentStarted(ConnectedComponentTraversalEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void edgeTraversed(EdgeTraversalEvent<DefaultEdge> ev) {
+				Country sourceVertex = grafo.getEdgeSource(ev.getEdge());
+				Country targetVertex = grafo.getEdgeTarget(ev.getEdge());
+				
+				// in visita, la chiave è il figlio, l'elemento è il padre
+				// esploro il grafo aggiungendo le istanze di padri e figli, dato che il grafo
+				// non è orinetato, verifico quale risulta il padre e quale il figlio dell'arco
+				// tra quello che ho salvato come sorgente e destinazione dell'evento
+				// la prima istanza che ho salvato in precedenza ha il figlio che è la sorgente primaria
+				// da cui faccio partire l'attraversamento, ma non ha ancora il padre
+				// quindi nel primo salvataggio istanzierò un nuovo componente con chiave (figlio)
+				// come il target dell'arco del grafo che ha la sorgente primaria come origini
+				// e come padre la sorgente primaria e il processo andrà così via avanti
+				if(!visita.containsKey(targetVertex) && visita.containsKey(sourceVertex)) {
+					visita.put(targetVertex, sourceCountry);
+				} else if (!visita.containsKey(sourceVertex) && visita.containsKey(targetVertex)) {
+					visita.put(sourceVertex, targetVertex);
+				}
+				
+			}
+
+			@Override
+			public void vertexFinished(VertexTraversalEvent<Country> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void vertexTraversed(VertexTraversalEvent<Country> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		// a questo punto posso iterare per aggiungere gli elementi della lista di nodo raggiungibiili
+		while(it.hasNext()) {
+			statiRaggiungibili.add(it.next());
+		}
+
+
+		// fare anche una versione iterativa del metodo, implementata senza GraphIterators
+		
+		
+		
+		return statiRaggiungibili;
+	}

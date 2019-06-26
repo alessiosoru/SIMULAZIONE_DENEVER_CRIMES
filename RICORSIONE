@@ -1,0 +1,104 @@
+
+	
+	// RICORSIONE
+	/*
+	 * RICORSIONE FORMULA 1
+	 * 
+	 * Soluzione parziale:mappa di driver team
+	 * 	(mappa di driver con tasso di sconfitta = vittorie di altri tot)
+	 * Livello della ricorsione: numero di piloti nel team
+	 * Casi terminali: 
+	 * 	1. livello ricorsione diventa k piloti -> Verifica se il team
+	 * 		ha min tasso di sconfitta visto fino ad ora
+	 * Generazione delle soluzioni: dato un vertice, aggiungo un vertice
+	 * 	non ancora parte del percorso
+	 * 
+	 * Calcolo il tasso di sconfitta come peso archi entranti per ogni pilota
+	 * 
+	 */
+
+//	public Map<Integer, Driver> getDreamTeam(Integer k){
+//		
+//		// inizializzo qui il tasso di sconofitta perchè se rifaccio ricorsione da zero
+//		//  e non trovo tasso migliore della ricorsione prec che non c'entra nulla
+//		// non riesco a trovare un nuovo best
+//		// CREO IL PARAMETRO DEL BEST
+//		bestTassoSconfitta = Integer.MAX_VALUE;
+//		
+//		//INIZIALIZZO RICORSIONE
+//		// VARIABILI PER LA RICORSIONE
+//		//CREO SOLUZIONE PARZIALE
+//		Map<Integer, Driver> parziale = new HashMap<Integer, Driver>();
+//		this.bestTeam = new HashMap<Integer, Driver>();
+//
+//		Integer tassoSconfitta = 0;
+//		
+//		// INZIIO LA RICORSIONE
+//		cerca(parziale, 0, k, tassoSconfitta); 
+//		
+//		return this.bestTeam; // RITORNO IL BEST
+//		
+//	}
+//
+//
+//	// METODO RICORSIVE
+//	private void cerca(Map<Integer, Driver> parziale, int livello, Integer k, Integer tassoSconfitta) {
+//		System.out.println(livello);
+//		if(livello == k) { // VERIFICO CONDIZIONE DI TERMINAZIONE PARZIALE
+//			// VERIFICO SE PARZIALE HA TASSO MIGLIORE DEL BEST
+//			// SE VERO SALVO COME !! NEW !! PASSANO PARZIALE
+//			if(tassoSconfitta<this.bestTassoSconfitta) {
+//				this.bestTassoSconfitta = tassoSconfitta;
+//				this.bestTeam = new HashMap<Integer, Driver>(parziale);
+//			}
+//			
+//			// RETURN !!!
+//			
+//			// RICORDA DI INSERIRE IL !!!| RETURN !!!! nella condizione di terminazione
+//			
+//			// in questo caso è fuori dall'if sul controllo del best
+//			// perchè ho comunque raggiunto il livello massimo e devo uscire
+//		return;
+//		}
+//		
+//		// PER OGNI OGGETTO VERIFICO CHE PARZIALE NON LO CONTENGA E SE
+//		// SODDISFA CONDIZIONE DI INSERIMENTO, SE VERO
+//		// INSERISCO IN PARZIALE
+//		// CHIAMO RICORSIONE
+//		// FACCIO BACKTRACKING
+//		for(Driver d : this.grafo.vertexSet()) {
+//			if(!parziale.containsKey(d.getDriverId())) {
+//				
+//				parziale.put(d.getDriverId(), d);
+//
+//				Integer aggiuntaTasso = calcolaTassoSconfitta(d, parziale);
+//				tassoSconfitta = tassoSconfitta + aggiuntaTasso;
+//				
+//				cerca(parziale, livello+1, k, tassoSconfitta);
+//				
+//				parziale.remove(d.getDriverId(), d);
+//				tassoSconfitta = tassoSconfitta - aggiuntaTasso;
+//				
+//			}
+//		}
+//	}
+//
+//
+//	// METODO PER IL CALCOLO DEI VALORI DI VERIFICA
+//	private Integer calcolaTassoSconfitta(Driver d, Map<Integer, Driver> parziale) {
+//		Integer aggiuntaTasso = 0;
+//		System.out.println("DREAM TEAM\n");
+//		for(Driver driv : parziale.values()) {
+//			System.out.println("dt"+driv.getSurname());
+//		}
+//			for(DefaultWeightedEdge e : this.grafo.incomingEdgesOf(d)) {
+//				System.out.println("battenti"+this.grafo.getEdgeSource(e).getSurname());
+//				if(!parziale.containsKey(this.grafo.getEdgeSource(e).getDriverId())) {
+//					
+//					aggiuntaTasso = (int) (aggiuntaTasso + this.grafo.getEdgeWeight(e));
+//			}
+//		}
+//		return aggiuntaTasso;
+//	}
+	
+	
